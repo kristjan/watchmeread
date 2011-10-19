@@ -1,6 +1,13 @@
 var express = require('express');
 var app = express.createServer(express.logger());
 
+app.register('.haml', require('hamljs'));
+app.set('view engine', 'haml');
+
+app.get('/', function(request, response) {
+  response.render("index");
+});
+
 var INTERVAL = 5;
 var MS_PER_S = 1000;
 app.get('/watch/:n', function(request, response) {
