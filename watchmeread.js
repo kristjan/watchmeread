@@ -1,11 +1,20 @@
 var express = require('express');
-var app = express.createServer(express.logger());
+var app = express.createServer(
+  express.logger(),
+  express.bodyParser(),
+  express.cookieParser(),
+  express.session({secret: 'opensourcedcodeishardtostoresecretsin'})
+);
 
 app.register('.haml', require('hamljs'));
 app.set('view engine', 'haml');
 
 app.get('/', function(request, response) {
-  response.render("index");
+  response.render("index", {
+    locals: {
+      flash: request.flash()
+    }
+  });
 });
 
 var INTERVAL = 5;
@@ -17,6 +26,12 @@ app.get('/watch/:n', function(request, response) {
     response.redirect('/watch/' + next), 302;
     clearTimeout(timeout);
   }, INTERVAL * MS_PER_S);
+});
+
+app.post('/email', function(request, response) {
+  var email = request.body.email;
+  request.flash('info', 'An email is being sent to %s.', email);
+  response.redirect('/');
 });
 
 app.listen(process.env.PORT || 3000)

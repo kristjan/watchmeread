@@ -1,1 +1,9 @@
-I'm gonna watch you read your email.
+<h1>Watch Me Read</h1>
+
+- if (flash.info)
+  .flash= flash.info
+
+%form{action: '/email', method: 'POST'}
+  %label{for: 'email'} Your email
+  %input#email{name: 'email', type: 'text'}
+  %input{type: 'submit', value: 'Send'}
