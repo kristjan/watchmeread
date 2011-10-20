@@ -3,7 +3,8 @@ var app = express.createServer(
   express.logger(),
   express.bodyParser(),
   express.cookieParser(),
-  express.session({secret: 'opensourcedcodeishardtostoresecretsin'})
+  express.session({secret: 'opensourcedcodeishardtostoresecretsin'}),
+  express.static(__dirname + '/public')
 );
 
 app.register('.haml', require('hamljs'));
